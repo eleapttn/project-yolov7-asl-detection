@@ -1,1 +1,1 @@
-# yolov7_streamlit_asl_recognition
+# ASL recognition using YOLOv7
