@@ -29,9 +29,9 @@ ovhai notebook run miniconda jupyterlab \
 	--framework-version conda-py39-cuda11.2-v22-4 \
 	--gpu 1 \
 	--volume data-sign-language@GRA/:/workspace/data:RW:cache \
-  --volume model-sign-language@GRA/:/workspace/asl-yolov7-model:RW \
-  --volume images-sign-language@GRA/:/workspace/images:RO \
-  --volume https://github.com/eleapttn/yolov7_streamlit_asl_recognition.git:/workspace/github-repo:RW
+	--volume model-sign-language@GRA/:/workspace/asl-yolov7-model:RW \
+	--volume images-sign-language@GRA/:/workspace/images:RO \
+	--volume https://github.com/eleapttn/yolov7_streamlit_asl_recognition.git:/workspace/github-repo:RW
 ```
 
 ## Launch an AI Deploy app
@@ -42,7 +42,7 @@ To launch and access to the AI Deploy app, you have to launch the following comm
 
 ```
 ovhai app run <your_docker_id>/yolov7-asl-recognition:latest \
-   --gpu 1 \
-   --default-http-port 8501 \
-   --volume asl-volov7-model@GRA/:/workspace/asl-volov7-model:RO
+	--gpu 1 \
+	--default-http-port 8501 \
+	--volume asl-volov7-model@GRA/:/workspace/asl-volov7-model:RO
 ```
