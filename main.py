@@ -70,7 +70,7 @@ def display_letters(letters_list):
 # main
 if __name__ == '__main__':
 
-    st.image("/workspace/head-notebook-ai-for-health.png")
+    st.image("/workspace/head-asl-yolov7-app.png")
     st.write("## Welcome on your ASL letters recognition app!")
 
     # import yolov7 model for asl recognition
