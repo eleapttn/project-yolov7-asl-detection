@@ -1,4 +1,3 @@
-#FROM ovhcom/ai-training-one-for-all
 FROM python:3.8
 
 WORKDIR /workspace
