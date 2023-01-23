@@ -46,3 +46,10 @@ ovhai app run <your_docker_id>/yolov7-asl-recognition:latest \
 	--default-http-port 8501 \
 	--volume asl-volov7-model@GRA/:/workspace/asl-volov7-model:RO
 ```
+
+## References 
+
+Access to the resources:
+
+- Slides are available [here](https://noti.st/eleapttn/ZuK1ot/what-if-ai-was-the-solution-to-understand-sign-language).
+- You can check the replay on this [link](https://summit2022.aiforhealth.fr/onlinesession/5c6f487b-9252-ed11-819a-000d3a45cc82).
