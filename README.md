@@ -2,6 +2,8 @@
 
 *The previous code will be used to launch a notebook and an app from **OVHcloud AI Tools**.*
 
+📄 Access to Weights & Biases report [here](https://api.wandb.ai/links/asl-alphabet-data-augment-ovh/wau6k1rd).
+
 ## Requirements
 
 - a Public Cloud project in your OVHcloud account
