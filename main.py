@@ -6,13 +6,16 @@ import torch
 import cv2
 import io
 import os
+import torchaudio
+from speechbrain.pretrained import Tacotron2
+from speechbrain.pretrained import HIFIGAN
 
 # load the model and put it in cache
-@st.cache
+@st.cache_resource
 def load_model():
 
     # load the custom model for asl recognition
-    custom_yolov7_model = torch.hub.load("WongKinYiu/yolov7", 'custom', '/workspace/asl-volov7-model/yolov7.pt')
+    custom_yolov7_model = torch.hub.load("WongKinYiu/yolov7", 'custom', '/workspace/asl-yolov7-model/yolov7.pt')
 
     return custom_yolov7_model
 
@@ -49,7 +52,7 @@ def analyse_image(image, model):
         result_list = list((result.pandas().xyxy[0])["name"])
 
     else:
-        st.write("no asl letters were detected!")
+        st.write("No asl letters were detected!")
         result_list = []
 
     # return detected letters in a list
@@ -66,6 +69,19 @@ def display_letters(letters_list):
 
     return path_file
 
+def tts(word):
+
+    tacotron2 = Tacotron2.from_hparams(source="speechbrain/tts-tacotron2-ljspeech", savedir="tmpdir_tts")
+    hifi_gan = HIFIGAN.from_hparams(source="speechbrain/tts-hifigan-ljspeech", savedir="tmpdir_vocoder")
+
+    # Running the TTS
+    mel_output, mel_length, alignment = tacotron2.encode_text(word)
+
+    # Running Vocoder (spectrogram-to-waveform)
+    waveforms = hifi_gan.decode_batch(mel_output)
+    torchaudio.save('/workspace/word_audio.wav', waveforms.squeeze(1), 22050)
+
+    return
 
 # main
 if __name__ == '__main__':
@@ -87,15 +103,32 @@ if __name__ == '__main__':
     if st.button("Clear result"):
         if os.path.isfile(path_file):
             os.remove(path_file)
-            print("File has been deleted")
+            os.remove('/workspace/word_audio.wav')
+            print("Files have been deleted")
         else:
             print("File does not exist")
 
     # display the result if it exists
-    if (os.path.exists(path_file)==True):
+    if (os.path.exists(path_file) == True):
         with open(path_file, "r") as f:
+            # text
             content = f.read()
+            st.write('### Display word')
             st.write(content)
+            tts(content)
+            audio_file = open('/workspace/word_audio.wav', 'rb')
+            if audio_file is not None:
+                # read and play the audio file
+                st.write('### Play audio')
+                audio_bytes = audio_file.read()
+                st.audio(audio_bytes, format='audio/wav')
+            else:
+                pass
+            # clear the resulting word
             f.close()
     else:
         pass
+
+
+
+
