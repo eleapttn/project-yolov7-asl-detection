@@ -46,7 +46,7 @@ To launch and access to the AI Deploy app, you have to launch the following comm
 ovhai app run <your_docker_id>/yolov7-asl-recognition:latest \
 	--gpu 1 \
 	--default-http-port 8501 \
-	--volume asl-volov7-model@GRA/:/workspace/asl-volov7-model:RO
+	--volume asl-volov7-model@GRA/:/workspace/asl-yolov7-model:RO
 ```
 
 ## References 
