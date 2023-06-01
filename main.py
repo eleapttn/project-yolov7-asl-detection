@@ -6,9 +6,7 @@ import torch
 import cv2
 import io
 import os
-import torchaudio
-from speechbrain.pretrained import Tacotron2
-from speechbrain.pretrained import HIFIGAN
+
 
 # load the model and put it in cache
 @st.cache_resource
@@ -69,19 +67,6 @@ def display_letters(letters_list):
 
     return path_file
 
-def tts(word):
-
-    tacotron2 = Tacotron2.from_hparams(source="speechbrain/tts-tacotron2-ljspeech", savedir="tmpdir_tts")
-    hifi_gan = HIFIGAN.from_hparams(source="speechbrain/tts-hifigan-ljspeech", savedir="tmpdir_vocoder")
-
-    # Running the TTS
-    mel_output, mel_length, alignment = tacotron2.encode_text(word)
-
-    # Running Vocoder (spectrogram-to-waveform)
-    waveforms = hifi_gan.decode_batch(mel_output)
-    torchaudio.save('/workspace/word_audio.wav', waveforms.squeeze(1), 22050)
-
-    return
 
 # main
 if __name__ == '__main__':
@@ -115,15 +100,6 @@ if __name__ == '__main__':
             content = f.read()
             st.write('### Display word')
             st.write(content)
-            tts(content)
-            audio_file = open('/workspace/word_audio.wav', 'rb')
-            if audio_file is not None:
-                # read and play the audio file
-                st.write('### Play audio')
-                audio_bytes = audio_file.read()
-                st.audio(audio_bytes, format='audio/wav')
-            else:
-                pass
             # clear the resulting word
             f.close()
     else:
